@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body ng-controller="weatherController">
+
+    <div class="container">
+        <h1 class="text-center">Weather Dashboard</h1>
+        
+        <!-- Search Bar -->
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <input type="text" class="form-control" ng-model="city" ng-keydown="searchWeather($event)" placeholder="Enter city" />
+            </div>
+        </div>
+        
+        <!-- Weather Display -->
+        <div ng-if="weather" class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ weather.name }}, {{ weather.sys.country }}</h4>
+                        <p class="card-text">
+                            Temperature: {{ weather.main.temp }}°C<br>
+                            Humidity: {{ weather.main.humidity }}%<br>
+                            Description: {{ weather.weather[0].description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Searches -->
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h4>Recent Searches</h4>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="recent in recentSearches" ng-click="loadWeather(recent)">
+                        {{ recent }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
+</body>
+</html>

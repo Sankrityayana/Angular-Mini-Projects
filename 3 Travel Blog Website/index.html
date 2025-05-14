@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="travelBlogApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Travel Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & jQuery CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+
+  <style>
+    .carousel-inner > .item > img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body ng-controller="blogController">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Travel Blog</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Destinations</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Carousel -->
+  <div id="mainCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=60">
+      </div>
+      <div class="item">
+        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=60">
+      </div>
+      <div class="item">
+        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1200&q=60">
+      </div>
+    </div>
+    <a class="left carousel-control" href="#mainCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#mainCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+  <!-- Filters -->
+  <div class="container">
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-sm-6">
+        <label>Filter by Destination:</label>
+        <select class="form-control" ng-model="selectedDest">
+          <option value="">All</option>
+          <option ng-repeat="d in destinations">{{d}}</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label>Search Keywords:</label>
+        <input type="text" class="form-control" ng-model="searchText" placeholder="Search blogs...">
+      </div>
+    </div>
+
+    <!-- Blog Cards -->
+    <div class="row" style="margin-top: 30px;">
+      <div class="col-sm-6" ng-repeat="post in blogPosts | filter:{destination: selectedDest} | filter:searchFilter">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>{{post.title}}</strong> - <em>{{post.destination}}</em>
+          </div>
+          <div class="panel-body">
+            <img ng-src="{{post.image}}" alt="{{post.title}}" class="img-responsive" style="height:200px; width:100%; object-fit:cover;">
+            <p>{{post.summary}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Static Comments -->
+    <h3>User Comments</h3>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="c in comments">
+        <strong>{{c.name}}:</strong> {{c.text}}
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

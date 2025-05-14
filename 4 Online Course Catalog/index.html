@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="courseApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Course Catalog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap + jQuery + AngularJS CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</head>
+<body ng-controller="courseController">
+
+  <!-- Header -->
+  <header class="jumbotron text-center">
+    <h1>Course Catalog</h1>
+    <p>Browse our available online courses</p>
+  </header>
+
+  <!-- Filters -->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <select class="form-control" ng-model="selectedCategory">
+          <option value="">All Categories</option>
+          <option ng-repeat="cat in categories">{{cat}}</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" ng-model="searchText" placeholder="Search by course name...">
+      </div>
+    </div>
+
+    <!-- Course Cards -->
+    <div class="row" style="margin-top: 30px;">
+      <div class="col-sm-4" ng-repeat="course in filteredCourses = (courses | filter:searchFilter).slice((currentPage-1)*pageSize, currentPage*pageSize)">
+        <div class="panel panel-primary">
+          <div class="panel-heading">{{course.title}}</div>
+          <div class="panel-body">
+            <p><strong>Category:</strong> {{course.category}}</p>
+            <p>{{course.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="text-center">
+      <ul class="pagination">
+        <li ng-class="{disabled: currentPage === 1}">
+          <a href="" ng-click="changePage(currentPage - 1)">&laquo;</a>
+        </li>
+        <li ng-repeat="n in getPageNumbers()" ng-class="{active: currentPage === n}">
+          <a href="" ng-click="changePage(n)">{{n}}</a>
+        </li>
+        <li ng-class="{disabled: currentPage === pageCount}">
+          <a href="" ng-click="changePage(currentPage + 1)">&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center" style="margin-top: 30px; padding: 20px; background: #f5f5f5;">
+    <p>&copy; 2025 Online Course Platform</p>
+  </footer>
+</body>
+</html>
